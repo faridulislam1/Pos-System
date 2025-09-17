@@ -1,6 +1,4 @@
 <p align="center">
-<a href="https://qtecsolution.com/" target="_blank">
-<img src="https://qtecsolution.com/assets/Frontend/images/logo/logo.svg" width="200" alt="qtec Logo">
 </a>
 </p>
 
