@@ -80,7 +80,7 @@ class CategoryController extends Controller
     //     ]);
     //     $category = Category::create($request->except('category_image'));
     //     if ($request->hasFile("category_image")) {
-    //         $category->image = $this->fileHandler->fileUploadAndGetPath($request->file("category_image"), "/public/media/categories");
+    //         $category->image = $this->fileHandler->fileUploadAndGetPath($request->file("category_image"), "/");
     //         $category->save();
     //     }
 
@@ -129,10 +129,16 @@ class CategoryController extends Controller
             }
         }
 
-        return response()->json([
+            return response()->json([
             'success' => true,
             'message' => 'Category created successfully!',
-            'data' => $category,
+            'data' => [
+                'id' => $category->id,
+                'name' => $category->name,
+                'description' => $category->description,
+                'status' => $category->status,
+                'image' => $category->image,
+            ]
         ], 201);
     }
 

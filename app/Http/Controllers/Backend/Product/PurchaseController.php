@@ -39,10 +39,10 @@ class PurchaseController extends Controller
                     <div class="dropdown-menu" role="menu">
                       <a class="dropdown-item" href="' . route('backend.admin.purchase.create', ['purchase_id' => $data->id]) . '">
                     <i class="fas fa-edit"></i> Edit
-                </a> 
-  <a class="dropdown-item" href="' . route('backend.admin.purchase.products', $data->id) . '">
-                <i class="fas fa-eye"></i> View
-            </a>
+                     </a> 
+                    <a class="dropdown-item" href="' . route('backend.admin.purchase.products', $data->id) . '">
+                        <i class="fas fa-eye"></i> View
+                    </a>
                     </div>
                   </div>';
                 })
