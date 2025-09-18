@@ -24,18 +24,18 @@ class CustomerController extends Controller
                 ->addColumn('created_at', fn($data) => $data->created_at->format('d M, Y')) // Using Carbon for formatting
                 ->addColumn('action', function ($data) {
                     $actionHtml = '<div class="btn-group">
-        <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
-        <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
-            <span class="sr-only">Toggle Dropdown</span>
-        </button>
-        <div class="dropdown-menu" role="menu">';
+                <button type="button" class="btn bg-gradient-primary btn-flat">Action</button>
+                <button type="button" class="btn bg-gradient-primary btn-flat dropdown-toggle dropdown-icon" data-toggle="dropdown" aria-expanded="false">
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <div class="dropdown-menu" role="menu">';
 
                     // Check if the user has permission to update customers
                     if (auth()->user()->can('customer_update')) {
                         $actionHtml .= '<a class="dropdown-item" href="' . route('backend.admin.customers.edit', $data->id) . '" ' . ($data->id == 1 ? 'onclick="event.preventDefault();"' : '') . '>
-            <i class="fas fa-edit"></i> Edit
-        </a>';
-                        $actionHtml .= '<div class="dropdown-divider"></div>';
+                    <i class="fas fa-edit"></i> Edit
+                </a>';
+                 $actionHtml .= '<div class="dropdown-divider"></div>';
                     }
 
                     // Check if the user has permission to delete customers

@@ -7,6 +7,9 @@ use App\Models\Category;
 use App\Trait\FileHandler;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Storage;
+
 class CategoryController extends Controller
 {
     public $fileHandler;
@@ -66,23 +69,74 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    // public function store(Request $request)
+    // {
+    //     abort_if(!auth()->user()->can('category_create'), 403);
+    //     $validated = $request->validate([
+    //         'name' => 'required|string|max:255',
+    //         'description' => 'nullable|string',
+    //         'category_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //         'status' => 'required|boolean',
+    //     ]);
+    //     $category = Category::create($request->except('category_image'));
+    //     if ($request->hasFile("category_image")) {
+    //         $category->image = $this->fileHandler->fileUploadAndGetPath($request->file("category_image"), "/public/media/categories");
+    //         $category->save();
+    //     }
+
+    //     return redirect()->route('backend.admin.categories.index')->with('success', 'Category created successfully!');
+    // }
+
+
+
+   public function store(Request $request)
     {
-        abort_if(!auth()->user()->can('category_create'), 403);
+        // Validate
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'category_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'status' => 'required|boolean',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+            'status' => 'required',
         ]);
-        $category = Category::create($request->except('category_image'));
-        if ($request->hasFile("category_image")) {
-            $category->image = $this->fileHandler->fileUploadAndGetPath($request->file("category_image"), "/public/media/categories");
-            $category->save();
+
+        $validated['status'] = filter_var($request->status, FILTER_VALIDATE_BOOLEAN);
+
+        $category = Category::create([
+            'name' => $validated['name'],
+            'description' => $validated['description'] ?? null,
+            'status' => $validated['status'],
+        ]);
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            if ($file->isValid()) {
+                try {
+                    $folder = 'categories/' . date('Y/m/d');
+                    $uploadedPath = Storage::disk('cloudinary')->put($folder, $file);
+                    $url = Storage::disk('cloudinary')->url($uploadedPath);
+
+                    if ($url) {
+                        $category->image = $url;
+                        $category->save();
+                    }
+                } catch (\Exception $e) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Cloudinary upload failed: ' . $e->getMessage(),
+                    ], 500);
+                }
+            }
         }
 
-        return redirect()->route('backend.admin.categories.index')->with('success', 'Category created successfully!');
+        return response()->json([
+            'success' => true,
+            'message' => 'Category created successfully!',
+            'data' => $category,
+        ], 201);
     }
+
+
 
     /**
      * Display the specified resource.
