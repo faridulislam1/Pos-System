@@ -119,6 +119,7 @@ class WebsiteSettingController extends Controller
             writeConfig($key, $value);
         }
         Artisan::call('config:clear');
+     
         return to_route('backend.admin.settings.website.general', ['active-tab' => 'invoice-settings'])
             ->with('success', 'Updated successfully');
     }

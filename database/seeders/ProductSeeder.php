@@ -15,21 +15,17 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        // Create random categories
         for ($i = 0; $i < 10; $i++) {
             Category::create([
                 'name' => $faker->word(),
             ]);
         }
 
-        // Create random brands
         for ($i = 0; $i < 10; $i++) {
             Brand::create([
                 'name' => $faker->company(),
             ]);
         }
-
-        // Create random products
         for ($i = 0; $i < 50; $i++) {
             Product::create([
                 'image' => '',

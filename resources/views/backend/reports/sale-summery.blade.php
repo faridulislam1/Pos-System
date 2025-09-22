@@ -93,9 +93,8 @@
 <script>
   $(function() {
     const urlParams = new URLSearchParams(window.location.search);
-    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD'); // Default to last 30 days if not present
-    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD'); // Default to today if not present
-
+    const startDate = urlParams.get('start_date') || moment().subtract(29, 'days').format('YYYY-MM-DD'); 
+    const endDate = urlParams.get('end_date') || moment().format('YYYY-MM-DD'); 
     //Date range as a button
     $('#daterange-btn').daterangepicker({
         ranges: {

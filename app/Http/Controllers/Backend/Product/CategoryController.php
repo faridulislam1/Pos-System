@@ -95,8 +95,8 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-            'status' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
+             'status' => 'required|boolean',
         ]);
 
         $validated['status'] = filter_var($request->status, FILTER_VALIDATE_BOOLEAN);

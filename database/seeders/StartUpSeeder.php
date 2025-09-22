@@ -20,7 +20,7 @@ class StartUpSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Mr Admin',
-            'email' => 'demo@qtecsolution.net',
+            'email' => 'demo@qpos.net',
             'password' => bcrypt(87654321),
             'username' => uniqid()
         ]);

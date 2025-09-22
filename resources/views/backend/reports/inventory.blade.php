@@ -104,7 +104,7 @@
         }
       ],
       initComplete: function() {
-        // Hide the "entries" text length changes button
+        
         $('.dataTables_length label').contents().filter(function() {
           return this.nodeType === 3;
         }).remove();
