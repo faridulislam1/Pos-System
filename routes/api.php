@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\Product\CategoryController;
-
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,10 +15,15 @@ use App\Http\Controllers\Backend\Product\CategoryController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+    Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+        return $request->user();
+    });
 
-Route::prefix('admin')->group(function () {
-    Route::resource('categories', CategoryController::class);
-});
+    Route::prefix('admin')->group(function () {
+        Route::resource('categories', CategoryController::class);
+    });
+
+
+ Route::post('/registers', [AuthController::class, 'registers']);
+ Route::middleware('throttle:5,1')->post('/logins', [AuthController::class, 'logins']);
+

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
@@ -68,6 +69,76 @@ class AuthController extends Controller
             }
         }
     }
+   public function registers(Request $request)
+   {
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => [
+            'required', 'confirmed',
+            Password::min(8)->mixedCase()->numbers()->symbols()
+        ],
+        'role' => 'in:admin,customer,vendor' 
+    ]);
+
+    
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role ?? 'customer',
+        'status' => 1, 
+    ]);
+
+    $token = $user->createToken('auth_token')->plainTextToken;
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'User registered successfully',
+        'data' => [
+            'name' => $user->name,
+            'email' => $user->email,
+            'role' => $user->role,
+            'status' => $user->status,
+            'token' => $token,
+        ],
+    ], 200);
+   }
+
+    public function logins(Request $request)
+   {
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);  
+
+    $user = User::where('email', $request->email)->first();
+
+    if (! $user || ! Hash::check($request->password, $user->password)) {
+        return response()->json([
+            'message' => 'Invalid credentials',
+            'status' => 401,
+            'data' => null
+        ], 401);
+    }
+
+    $user->tokens()->delete();
+    $plainToken = $user->createToken('auth_token')->plainTextToken;
+    $tokenParts = explode('|', $plainToken);
+    $tokenOnly = $tokenParts[1] ?? $plainToken;
+
+    return response()->json([
+        'message' => 'success',
+        'status' => 200,
+        'data' => [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role,
+                'token' => $tokenOnly,
+                'super_token' => config('app.super_token'),
+            ],
+    ], 200);
+   }
 
     public function register(Request $request)
     {
@@ -240,7 +311,7 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $user = User::find(auth()->id());
-        // dd($request->all());
+         dd($request->all());
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -278,6 +349,7 @@ class AuthController extends Controller
                 if (!Hash::check($currentPassword, $user->password)) {
                     throw ValidationException::withMessages([
                         'current_password' => 'The current password is incorrect',
+                        'new_password' => 'The current password is incorrect'
                     ]);
                 }
             }

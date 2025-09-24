@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    // show permission page
+    
     public function index()
     {
         $permissions = Permission::all();
@@ -17,7 +17,6 @@ class PermissionController extends Controller
         return view('backend.settings.permission.index', compact('permissions'));
     }
 
-    // create new permission
     public function store(Request $request)
     {
         $request->validate([
@@ -44,7 +43,6 @@ class PermissionController extends Controller
         }
     }
 
-    // update a permission
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -61,7 +59,6 @@ class PermissionController extends Controller
         }
     }
 
-    // delete a permission
     public function destroy($id)
     {
         $data = Permission::findOrFail($id);

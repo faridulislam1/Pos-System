@@ -29,6 +29,7 @@ class DashboardController extends Controller
             'total_order' => $orders->count(),
             'total_product' => Product::count(),
             'total_sale_item' => OrderProduct::sum('quantity'),
+            'total_revenue' => OrderTransaction::sum('amount'),
         ];
 
 

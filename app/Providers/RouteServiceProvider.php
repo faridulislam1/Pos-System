@@ -37,4 +37,19 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
     }
+
+    protected function configureRateLimiting(): void
+    {
+            RateLimiter::for('login', function (Request $request) {
+            return Limit::perMinute(5)
+                ->by($request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'error' => 'Too many login attempts from this IP! Please try again later.'
+                    ], 429);
+                });
+        });
+
+    }
+
 }
