@@ -161,9 +161,10 @@ Route::get('storage-link', function () {
 });
 
 Route::get('test', [TestController::class, 'test'])->name('test');
+Route::get('/redisdata', [RedisController::class, 'getData']);
 
 
-Route::get('/products', [RedisController::class, 'index']);
-Route::post('/products', [RedisController::class, 'store']);
-Route::put('/products/{id}', [RedisController::class, 'update']);
-Route::delete('/products/{id}', [RedisController::class, 'destroy']);
+// Route::get('/products', [RedisController::class, 'index']);
+// Route::post('/products', [RedisController::class, 'store']);
+// Route::put('/products/{id}', [RedisController::class, 'update']);
+// Route::delete('/products/{id}', [RedisController::class, 'destroy']);
