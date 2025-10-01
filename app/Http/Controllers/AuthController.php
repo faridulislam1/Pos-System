@@ -106,7 +106,7 @@ class AuthController extends Controller
    }
 
     public function logins(Request $request)
-   {
+    {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
@@ -311,7 +311,7 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $user = User::find(auth()->id());
-         dd($request->all());
+         //dd($request->all());
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -361,6 +361,8 @@ class AuthController extends Controller
 
         return back()->with('success', 'Updated Successfully');
     }
+
+
 
     public function redirectUser()
     {

@@ -58,6 +58,8 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
+    'super_token' => env('SUPER_TOKEN', 'fallback-token'),
+
 
     /*
     |--------------------------------------------------------------------------

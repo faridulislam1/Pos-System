@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\RedisController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RolePermission\PermissionController;
 use App\Http\Controllers\Backend\Pos\OrderController;
@@ -160,3 +161,9 @@ Route::get('storage-link', function () {
 });
 
 Route::get('test', [TestController::class, 'test'])->name('test');
+
+
+Route::get('/products', [RedisController::class, 'index']);
+Route::post('/products', [RedisController::class, 'store']);
+Route::put('/products/{id}', [RedisController::class, 'update']);
+Route::delete('/products/{id}', [RedisController::class, 'destroy']);
