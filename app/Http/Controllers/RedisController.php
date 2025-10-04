@@ -27,7 +27,7 @@ class RedisController extends Controller
         ])->header('X-Cache', 'MISS'); 
 
         
-   }
+    }
 
     public function getData()
     {
