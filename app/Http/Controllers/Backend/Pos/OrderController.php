@@ -68,7 +68,7 @@ class OrderController extends Controller
             'customer_id' => [
                 'required',
                 'exists:customers,id',
-                'integer', // Ensure customer_id is an integer
+                'integer', 
             ],
             'order_discount' => [
                 'nullable',
@@ -169,6 +169,7 @@ class OrderController extends Controller
         $order = Order::with(['customer', 'products.product'])->findOrFail($id);
         return view('backend.orders.print-invoice', compact('order'));
     }
+    
     public function collection(Request $request, $id)
     {
 

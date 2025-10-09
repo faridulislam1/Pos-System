@@ -32,15 +32,12 @@ class RedisController extends Controller
             ->header('X-Cache', 'MISS');
     }
 
-
-
     public function getData()
     {
         $data = Redis::all();
         return response()->json($data);
     }
 
-    
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -71,16 +68,13 @@ class RedisController extends Controller
             'des' => 'nullable|string',
             'price' => 'nullable|numeric',
         ]);
-
         $redis = Redis::find($id);
         if (!$redis) {
             return response()->json(['message' => 'Not found'], 404);
         }
-
         $redis->update($validated);
         Cache::forget("redis_data_{$id}");
         Cache::forget('redis_data');
-
         return response()->json($redis);
     }
 
@@ -90,11 +84,9 @@ class RedisController extends Controller
         if (!$redis) {
             return response()->json(['message' => 'Not found'], 404);
         }
-
         $redis->delete();
         Cache::forget("redis_data_{$id}");
         Cache::forget('redis_data');
-
         return response()->json(['message' => 'Deleted']);
     }
 }

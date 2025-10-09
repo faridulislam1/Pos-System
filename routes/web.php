@@ -145,7 +145,7 @@ Route::prefix('admin')->as('backend.admin.')->middleware(['admin'])->group(funct
                 Route::put('update/{id}', 'update')->name('permissions.update');
                 Route::get('delete/{id}', 'destroy')->name('permissions.delete');
             });
-        });
+        });   
     });
 });
 

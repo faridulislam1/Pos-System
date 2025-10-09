@@ -329,6 +329,7 @@ class AuthController extends Controller
 
         if ($request->hasFile("profile_image")) {
             $user->profile_image = $this->fileHandler->fileUploadAndGetPath($request->file("profile_image"), "/public/media/users");
+            $user->google_id=null;
         }
 
         if ($request->current_password || $request->new_password || $request->confirm_password) {
