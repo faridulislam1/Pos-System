@@ -24,7 +24,7 @@
                 <th></th>
                 <th>Name</th>
                 <th>Status</th>
-                <th data-orderable="false">Action</th>
+                <th data-orderable="false">    </th>
               </tr>
             </thead>
           </table>
@@ -34,8 +34,6 @@
   </div>
 </div>
 @endsection
-
-
 @push('script')
 
 <script type="text/javascript">

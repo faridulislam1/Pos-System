@@ -89,9 +89,9 @@ class ProductController extends Controller
                 $query->where('name', 'LIKE', "%{$request->search}%")
                     ->orWhere('sku', $request->search);
             });
+            dd($products);
             // Get the results
             $products = $products->get();
-            // Return the results as a JSON response
             return ProductResource::collection($products);
         }
         return view('backend.products.index');

@@ -5,29 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Redis;
 use Illuminate\Support\Facades\Cache;
-
 use Illuminate\Support\Facades\Redis as RedisFacade; 
 class RedisController extends Controller
 {
-    public function index()
+
+    public function index(Request $request)
     {
-        $cacheKey = 'redis_data';
+        $perPage = 50;
+        $page = (int) $request->get('page', 1);
+        $cacheKey = "products_page_{$page}";
         $cached = RedisFacade::get($cacheKey);
         if ($cached) {
             return response($cached, 200)
                 ->header('Content-Type', 'application/json')
-                ->header('X-Cache', 'HIT'); 
+                ->header('X-Cache', 'HIT');
         }
-        $data = Redis::all()->toArray();
-        RedisFacade::setex($cacheKey, 600, json_encode($data));
-
-        return response()->json([
-            'source' => 'Database',
-            'data' => $data
-        ])->header('X-Cache', 'MISS'); 
-
-        
+        $products = Redis::paginate($perPage);
+        $formatted = [
+            'per_page' => $products->perPage(),
+            'to' => $products->lastItem(),
+            'total' => $products->total(),
+            'data' => $products->items(),
+        ];
+        RedisFacade::setex($cacheKey, 60, json_encode($formatted));
+        return response()->json($formatted)
+            ->header('X-Cache', 'MISS');
     }
+
+
 
     public function getData()
     {

@@ -16,7 +16,7 @@ class ProductsImport implements ToModel, WithHeadingRow
 {
     public function model(array $row)
     {
-        // Find or create brand, category, and unit
+        
         $brand = Brand::firstOrCreate(['name' => $row['brand']]);
         $category = Category::firstOrCreate(['name' => $row['category']]);
         $unit = Unit::firstOrCreate(
@@ -24,13 +24,10 @@ class ProductsImport implements ToModel, WithHeadingRow
             ['short_name' => $row['unit']]
         );
 
-
         $sku = $row['sku'];
         $originalSku = $sku;
         $counter = 1;
-        // Check for SKU uniqueness
         while (Product::where('sku', $sku)->exists()) {
-            // Append a counter to the original SKU to make it unique
             $sku = $originalSku . '-' . $counter;
             $counter++;
         }

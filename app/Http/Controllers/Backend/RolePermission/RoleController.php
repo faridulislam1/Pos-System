@@ -58,7 +58,6 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
-
         return view('backend.settings.role.permissions', compact('permissions', 'role'));
     }
 

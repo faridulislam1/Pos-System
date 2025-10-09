@@ -53,7 +53,7 @@ class DashboardController extends Controller
         $data['dates'] = $dates;
         $data['totalAmounts'] = $totalAmounts;
         $data['dateRange'] = 'from '. $startDate . ' to ' . $endDate;
-
+        $data['amounts'] = 'from '. $startDate . ' to ' . $endDate;
 
         $currentYear = now()->year;
         $data['currentYear'] = $currentYear;

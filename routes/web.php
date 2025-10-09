@@ -87,6 +87,7 @@ Route::prefix('admin')->as('backend.admin.')->middleware(['admin'])->group(funct
     Route::get('/sale/report', [ReportController::class, 'saleReport'])->name('sale.report');
     Route::get('/inventory/report', [ReportController::class, 'inventoryReport'])->name('inventory.report');
     //end report
+    
    // start pos
     Route::get('/get/products', [CartController::class, 'getProducts'])->name('getProducts');
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
@@ -129,7 +130,7 @@ Route::prefix('admin')->as('backend.admin.')->middleware(['admin'])->group(funct
 
             Route::controller(RoleController::class)->prefix('roles')->group(function () {
                 Route::get('/', 'index')->name('roles');
-                Route::post('create', 'store')->name('roles.create');
+                Route::post('create', 'store')->name('roles.create'); 
                 Route::get('show/{id}', 'show')->name('roles.show');
                 Route::put('update/{id}', 'update')->name('roles.update');
                 Route::get('delete/{id}', 'destroy')->name('roles.delete');

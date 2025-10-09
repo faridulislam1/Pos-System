@@ -15,8 +15,8 @@ class OrderTransactionFactory extends Factory
 
   public function definition()
   {
-    $year = now()->year; // Get current year
-    $month = $this->faker->numberBetween(1, 12); // Random month
+    $year = now()->year; 
+    $month = $this->faker->numberBetween(1, 12); 
     $createdAt = Carbon::create($year, $month, rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59));
 
     return [
@@ -26,8 +26,8 @@ class OrderTransactionFactory extends Factory
       'user_id' => rand(0, 1) ? (User::inRandomOrder()->first()->id ?? User::factory()) : null,
       'paid_by' => $this->faker->randomElement(['cash', 'card', 'bank']),
       'transaction_id' => $this->faker->optional()->uuid,
-      'created_at' => $createdAt, // Set custom created_at
-      'updated_at' => $createdAt, // Keep updated_at consistent
+      'created_at' => $createdAt, 
+      'updated_at' => $createdAt,
     ];
   }
 }
